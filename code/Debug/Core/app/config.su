@@ -1,0 +1,2 @@
+../Core/app/config.c:9:6:load_config	12	static
+../Core/app/config.c:21:6:save_config	48	static

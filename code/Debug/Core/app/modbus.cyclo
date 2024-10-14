@@ -1,0 +1,6 @@
+../Core/app/modbus.c:13:6:modbusInit	1
+../Core/app/modbus.c:20:10:calculate_crc32	5
+../Core/app/modbus.c:42:1:eMBRegInputCB	4
+../Core/app/modbus.c:71:1:eMBRegHoldingCB	9
+../Core/app/modbus.c:121:1:eMBRegCoilsCB	1
+../Core/app/modbus.c:128:1:eMBRegDiscreteCB	1
