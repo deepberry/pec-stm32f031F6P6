@@ -29,18 +29,18 @@
 
 extern void load_config(void);
 extern void modbusInit(void);
+extern IWDG_HandleTypeDef hiwdg;
 
 int app_main( void )
 {
 	load_config();
 
-	HAL_Delay(3);
+	__HAL_IWDG_RELOAD_COUNTER(&hiwdg);
 
 	modbusInit();
 
-    HAL_Delay(2);
-
     while(1){
+    	__HAL_IWDG_RELOAD_COUNTER(&hiwdg);
     	eMBPoll();
     }
 
