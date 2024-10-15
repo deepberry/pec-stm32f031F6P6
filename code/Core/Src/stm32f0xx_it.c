@@ -88,7 +88,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+	HAL_NVIC_SystemReset();
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
@@ -204,5 +204,21 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+uint16_t ISRCNT = 0;
+uint32_t lastHT = 0;
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == EXI1_Pin) {
+		if(GPIO_PIN_SET == HAL_GPIO_ReadPin(EXI1_GPIO_Port, EXI1_Pin) )
+		{
+			lastHT = HAL_GetTick();
+		}else
+		{
+			if( HAL_GetTick() - lastHT >=100){
+				ISRCNT++;
+			}
+		}
+
+	}
+}
 /* USER CODE END 1 */

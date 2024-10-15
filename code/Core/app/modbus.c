@@ -4,8 +4,8 @@
 #include "mbport.h"
 #include "config.h"
 
-#define REG_INPUT_START 1000
-#define REG_INPUT_NREGS (1 + (128 / 2) )
+#define REG_INPUT_START 2000
+#define REG_INPUT_NREGS (1)
 
 static USHORT usRegInputStart = REG_INPUT_START;
 static USHORT usRegInputBuf[REG_INPUT_NREGS];
@@ -48,6 +48,8 @@ eMBRegInputCB( UCHAR * pucRegBuffer, USHORT _usAddress, USHORT usNRegs )
     if( ( usAddress == REG_INPUT_START )
         && ( usAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS ) )
     {
+    	extern uint16_t ISRCNT;
+    	usRegInputBuf[0] = ISRCNT;
         iRegIndex = ( int )( usAddress - usRegInputStart );
         while( usNRegs > 0 )
         {
@@ -93,24 +95,24 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT _usAddress, USHORT usNRegs,
 			eStatus = MB_ENOREG;
 		}
 	}else{
-		if( ( usAddress >= 2 ) && ( usAddress + usNRegs <= 9 ) )
-		{
-			uint16_t *pw = (uint16_t *)&config;
-			pw += usAddress;
-			USHORT bkN = usNRegs;
-			while( usNRegs > 0 )
-			{
-				*pw = (uint16_t)((*pucRegBuffer++) << 8) + (uint8_t)(*pucRegBuffer++);
-				pw++;
-				usNRegs--;
-			}
-			save_config();
-			if( (usAddress + bkN >= 9) && (config.restart==0xffff) )
-				HAL_NVIC_SystemReset();
-
-		}else{
+//		if( ( usAddress >= 2 ) && ( usAddress + usNRegs <= 9 ) )
+//		{
+//			uint16_t *pw = (uint16_t *)&config;
+//			pw += usAddress;
+//			USHORT bkN = usNRegs;
+//			while( usNRegs > 0 )
+//			{
+//				*pw = (uint16_t)((*pucRegBuffer++) << 8) + (uint8_t)(*pucRegBuffer++);
+//				pw++;
+//				usNRegs--;
+//			}
+//			save_config();
+//			if( (usAddress + bkN >= 9) && (config.restart==0xffff) )
+//				HAL_NVIC_SystemReset();
+//
+//		}else{
 			eStatus = MB_ENOREG;
-		}
+//		}
 	}
 
 	return eStatus;

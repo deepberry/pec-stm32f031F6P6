@@ -4,6 +4,7 @@
 # Plugin
 /bom
 /production
+/code/Debug
 
 # Temporary files
 *.000
